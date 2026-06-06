@@ -1,0 +1,211 @@
+POSTGRESQL DATABASE
+VARCHAR =  A text that has limited characters 
+text = it has unlimited characters 
+integer = it saves whole numbers 
+numeric = stores exact decimal numbers (no rounding errors)
+SERIAL → auto-incrementing integer (commonly for IDs)
+
+# TO CREATE A TABLE 
+CREATE TABLE table_name(
+)
+
+# TO ALTER A TABLE 
+ALTER TABLE table_name ADD add_element - this command is used to add a column to an already existing table
+# TO ATLER A COLUMN IN AN EXISTING TABLE 
+ALTER TABLE table_name ALTER COLUMN column_name what_you_want_to_add
+ALTER TABLE sales_item RENAME COLUMN day_of_week TO weekday;
+TO REMOVE A COLUMN FROM A TABLE WILL BE ALER TABLE table_name drop column column_name 
+ALTER TABLE transaction_type RENAME TO TRANSACTION (this is used to rename a table) 
+
+HOW TO DELETE DATA IN A TABLE 
+TRUNCATE TABLE table_name - This deletes the entire column in the table but leaves the table , DROP table_name actually deletes the entire table , everything !
+
+TO ADD VALUES TO THE TABLE 
+
+INSERT INTO product_type(name) VALUES ('Business');
+SELECT * FROM product_type ;
+
+This Business into the product_type table which has a table column of name 
+the select other pastes everything into the command
+ALTER TABLE customer
+ALTER COLUMN zip TYPE INTEGER; , The two commands changes the variable of an existing column in a table
+
+
+WHERE COMMAND
+The where command is used to get the location 
+e.g 
+SELECT * from sales_item
+WHERE discount > .15 ; 
+The table being sales_item and the column being discount , it can also be done by doing 
+SELECT time_order_taken FROM sales_order WHERE time_order_taken > '2018-12-01' AND time_order_taken < '2018-12-31';
+
+WE CAN COMBINE TWO FIELDS INTO ONE BY USING CONCAT 
+
+SELECT CONCAT (first_name , ' ' , last_name) AS Name , phone , state
+FROM customer
+WHERE STATE = 'FCT';
+
+This command enabled us to get first_name and last_)name as a single column NAME from the table customer and using the exact state FCT
+
+CALCULATIONS IN POSTGRESQL
+SELECT product_id ,SUM(price) as Total 
+FROM item
+WHERE product_id =1
+GROUP BY product_id;
+
+GETTING DATA FROM MULTIPLE TABLES 
+We get data from multiple tables with inner joins , outer joins and union 
+
+SELECT item_id , price 
+FROM item INNER JOIN sales_item
+ON item.id = sales_item.id AND price >120
+ORDER BY item_id;
+
+SELECT sales_order.id  ,sales_item.quantity  , item.price ,(sales_item.quantity , item.price) AS Total
+FROM sales_order
+Join sales_item
+ON sales_item.sales_order_id = sales_order.id
+JOIN item
+ON item.id = sales_order.item_id
+
+The ON command defines the condition by which they are joined
+OUTER JOINS
+Avoid right joins and use left joins 
+
+
+SELECT name , supplier , price
+FROM product LEFT JOIN item
+ON product.id = item.product_id
+ORDER BY name;
+
+MINI LAB :
+Focuses on Select , where , order by , insert , update , delete , distinct , joins and count 
+
+SELECT first_name || ' ' || last_name AS full_name 
+FROM customer;
+SELECT 
+    customer.first_name, 
+    customer.last_name, 
+    orders.order_date, 
+    orders.total_amount
+FROM customer
+JOIN orders 
+    ON customer.id = orders.customer_id;
+
+INNER JOIN IS used to join two tables but it only prints out a table that has both connection between the two
+
+SELECT students.name, clubs.club_name
+FROM students
+INNER JOIN clubs ON students.id = clubs.student_id;
+
+SELECT column, AGGREGATE_FUNCTION(column)
+FROM table
+GROUP BY column;
+
+
+These two commands are your best friends when you don't have an exact value to search for. Think of LIKE as your "search bar" and BETWEEN as your "range slider."
+
+1. The LIKE Command (Pattern Matching)
+Use LIKE when you only know part of a string (text). It uses two special "wildcard" characters:
+
+% (Percent): Represents any number of characters (including zero).
+
+_ (Underscore): Represents exactly one single character.
+
+Examples:
+Find names starting with 'J':
+WHERE first_name LIKE 'J%' (Matches: James, Jon, Jennifer)
+
+Find emails ending in '@gmail.com':
+WHERE email LIKE '%@gmail.com'
+
+Find names that have 'am' anywhere inside:
+WHERE first_name LIKE '%am%' (Matches: James, Sam, Pamela)
+
+Find 5-letter names starting with 'J':
+WHERE first_name LIKE 'J____' (That's four underscores after the J)
+
+LET'S START !!
+1. Select
+2. Distinct
+
+
+RUNNING ON DOCKER 
+docker pull postgres
+ docker run --name my-postgres -e POSTGRES_PASSWORD=clement -p 5432:5432 -d postgres
+
+
+
+Here is your essential cheat sheet of basic Docker commands for PostgreSQL, formatted so you can easily store or save them for future reference.
+
+### 1. Running and Starting the Container
+* **Create and start a new Postgres container:**
+  ```bash
+  docker run --name my-postgres -e POSTGRES_PASSWORD=clement -p 5432:5432 -d postgres
+  ```
+
+* **Start an existing (stopped) container:**
+  ```bash
+  docker start my-postgres
+  ```
+
+### 2. Checking Status and Logs
+* **View running containers:**
+  ```bash
+  docker ps
+  ```
+
+* **View all containers (including stopped ones):**
+  ```bash
+  docker ps -a
+  ```
+
+* **Check container logs (useful for troubleshooting errors):**
+  ```bash
+  docker logs my-postgres
+  ```
+
+### 3. Using the Database
+* **Access the PostgreSQL interactive terminal (psql):**
+  ```bash
+  docker exec -it my-postgres psql -U postgres
+  ```
+  *(You will be prompted to enter the password you set when creating the container)*
+
+### 4. Stopping and Cleaning Up
+* **Stop the container:**
+  ```bash
+  docker stop my-postgres
+  ```
+
+* **Remove the container (force delete without stopping first):**
+  ```bash
+  docker rm -f my-postgres
+  ```
+
+* **List downloaded images:**
+  ```bash
+  docker images
+  ```
+
+* **Remove the Postgres image from your local machine:**
+  ```bash
+  docker rmi postgres
+  ```
+
+***
+
+*Feel free to copy and paste this list into your personal notes. Let me know if you need to add anything else to this reference!*
+
+
+
+
+
+
+
+
+
+
+
+
+
