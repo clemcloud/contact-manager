@@ -1,0 +1,14 @@
+# Exclude local environment and system files
+.git
+.gitignore
+.env
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+
+# Exclude IDE and editor folders
+.vscode
+.idea
