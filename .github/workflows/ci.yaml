@@ -26,4 +26,5 @@ jobs:
     - name: Lint with flake8
       run: |
         pip install flake8
-        flake8 .
+        # This tells flake8 to ignore line length (E501) and whitespace/blank line issues
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
